@@ -72,10 +72,10 @@
 
         <activity android:name=".UserActivity" />
 
-        <!-- API key for Google Maps, translate etc. -->
+        <!-- APi key formaps-->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBiR60oUSZdiY7UFQHga0T1qm41zQLQtEA" />
+            android:value="@string/apiKey" />
     </application>
 
 </manifest>

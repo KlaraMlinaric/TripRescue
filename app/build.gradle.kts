@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -19,7 +21,6 @@ android {
         exclude("META-INF/notice.txt")
         exclude("META-INF/ASL2.0")
         exclude("META-INF/*.kotlin_module")
-
     }
 
     defaultConfig {
@@ -30,6 +31,16 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        // Load local.properties to get the API key
+        val localProperties = Properties()
+        val localFile = rootProject.file("local.properties")
+        if (localFile.exists()) {
+            localProperties.load(localFile.inputStream())
+        }
+        // Fetch API key from local.properties
+        val apiKey = localProperties.getProperty("apiKey", "")
+        resValue("string", "apiKey", apiKey)
     }
 
     buildTypes {
@@ -67,7 +78,6 @@ dependencies {
     implementation("com.google.maps.android:android-maps-utils:2.3.0")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.3")
     implementation("com.google.code.gson:gson:2.10.1")
     implementation("com.github.pwittchen:weathericonview:1.1.0")
@@ -82,7 +92,7 @@ dependencies {
 
     implementation("com.google.mlkit:text-recognition:16.0.1")
     implementation("com.google.android.gms:play-services-mlkit-text-recognition:19.0.1")
-    implementation ("com.google.android.gms:play-services-base:18.5.0")
+    implementation("com.google.android.gms:play-services-base:18.5.0")
     implementation("com.google.mlkit:vision-common:17.3.0")
     implementation("io.coil-kt:coil-compose:2.3.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
@@ -102,8 +112,7 @@ dependencies {
     implementation("com.google.cloud:google-cloud-translate:2.15.0")
     implementation("com.squareup.okhttp3:okhttp:4.10.0")
 
-
-
+    val apiKey = project.findProperty("apiKey") as String? ?: ""
     val cameraxVersion = "1.3.0-rc01"
     implementation("androidx.camera:camera-core:$cameraxVersion")
     implementation("androidx.camera:camera-camera2:$cameraxVersion")
@@ -115,5 +124,4 @@ dependencies {
     implementation("org.tensorflow:tensorflow-lite-task-vision:0.4.0")
     implementation("org.tensorflow:tensorflow-lite-gpu-delegate-plugin:0.4.0")
     implementation("org.tensorflow:tensorflow-lite-gpu:2.9.0")
-
 }

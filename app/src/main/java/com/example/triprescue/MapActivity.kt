@@ -38,11 +38,6 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import com.example.triprescue.bnb.BotomNavBar
 import com.example.triprescue.ui.theme.TripRescueTheme
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.ui.text.input.ImeAction
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.model.LatLng
@@ -63,7 +58,7 @@ class MapActivity : ComponentActivity(), OnMapReadyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val apiKey = "AIzaSyBiR60oUSZdiY7UFQHga0T1qm41zQLQtEA"
+        val apiKey = getString(R.string.apiKey)
         if (!Places.isInitialized()) {
             Places.initialize(applicationContext, apiKey)
             Log.d("MapActivity", "Places SDK initialized.")

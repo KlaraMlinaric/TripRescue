@@ -20,7 +20,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-
+import android.content.Context
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -168,8 +168,8 @@ fun TextRecognitionApp() {
                                         val uri = Uri.fromFile(file)
                                         processTextFromImage(context, uri) { text ->
                                             recognizedText = text
-                                            translateTextToEnglish(text) { translatedText ->
-                                                recognizedText = translatedText // Update with translated text
+                                            translateTextToEnglish(context,text) { translatedText ->
+                                                recognizedText = translatedText //update with translated text
                                                 Toast.makeText(context, "Translated: $translatedText", Toast.LENGTH_LONG).show()
                                             }
                                         }
@@ -274,10 +274,10 @@ fun RequestCameraPermission(onPermissionResult: (Boolean) -> Unit) {
 }
 
 
-fun translateTextToEnglish(text: String, onResult: (String) -> Unit) {
+fun translateTextToEnglish(context: Context, text: String, onResult: (String) -> Unit) {
     CoroutineScope(Dispatchers.IO).launch {
         try {
-            val apiKey = "AIzaSyBiR60oUSZdiY7UFQHga0T1qm41zQLQtEA"
+            val apiKey = context.getString(R.string.apiKey)
             val url = "https://translation.googleapis.com/language/translate/v2"
             //create JSON payload
             val jsonPayload = """

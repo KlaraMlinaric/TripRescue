@@ -63,7 +63,7 @@ fun UserMapScreen() {
         ) { uri: Uri? ->
             if (uri != null && locationName.isNotEmpty()) {
                 saveImageIS(context, uri)?.let { savedUri ->
-                    searchLocation(locationName) { latLng ->
+                    searchLocation(context,locationName) { latLng ->
                         if (latLng != null) {
                             markers.add(Pair(latLng, savedUri))
                             cameraPositionState.position = CameraPosition.fromLatLngZoom(latLng, 10f)
@@ -217,8 +217,8 @@ fun loadMarker(sharedPreferences: SharedPreferences): List<Pair<LatLng, Uri?>>? 
     }
 }
 
-fun searchLocation(locationName: String, callback: (LatLng?) ->Unit) {
-    val apiKey = "AIzaSyBiR60oUSZdiY7UFQHga0T1qm41zQLQtEA"
+fun searchLocation(context: Context, locationName: String, callback: (LatLng?) -> Unit) {
+    val apiKey = context.getString(R.string.apiKey)
     val call = RetrofitInstance.geocodingService.geocodeLocation(locationName, apiKey)
     call.enqueue(object : retrofit2.Callback<GeocodingResponse>{
         override fun onResponse(call: Call<GeocodingResponse>, response: retrofit2.Response<GeocodingResponse>) {
